@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 function Hero() {
   return (
     <section className="hero" id="top">
@@ -9,7 +11,7 @@ function Hero() {
             you have kept them up. Simple, honest, motivating.
           </p>
           <div className="hero-actions">
-            <a href="#get-started" className="btn btn-primary">Start your streak</a>
+            <Link to="/signup" className="btn btn-primary">Start your streak</Link>
             <a href="#how-it-works" className="btn btn-outline">See how it works</a>
           </div>
         </div>

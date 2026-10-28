@@ -1,12 +1,13 @@
+import { Link } from "react-router-dom"
+
 export default function Navbar(){
     return (
         <div className="navbar">
             <div className="container navbar-inner">
                 <a href="#top" className="logo">🔥 Habit Tracker</a>
                 <div className="nav-links">
-                    <a href="#features">Features</a>
-                    <a href="#how-it-works">How it works</a>
-                    <a href="#get-started" className="btn btn-primary">Get Started</a>
+                    <Link to="/login">Log in</Link>
+                    <Link to="/signup" className="btn btn-primary">Get Started</Link>
                 </div>
             </div>
         </div>

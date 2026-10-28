@@ -1,21 +1,21 @@
-import Navbar from "./components/Navbar.jsx"
-import Hero from "./components/Hero.jsx"
-import Features from "./components/Features.jsx"
-import Counter from "./components/Counter.jsx"
-import SignupForm from "./components/SignupForm.jsx"
+import { Route, Routes } from "react-router-dom"
+import LandingPage from "./pages/LandingPage.jsx"
+import SignupPage from "./pages/SignupPage.jsx"
+import LoginPage from "./pages/LoginPage"
+import DashboardPage from "./pages/DashboardPage.jsx"
+import NotFoundPage from "./pages/NotFoundPage.jsx"
 
 function App(){
-
   return (
-    <div>
-      {/* <Navbar />
-      <Hero />
-      <Features /> */}
-
-      {/* <Counter /> */}
-
-      <SignupForm />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </>
   )
 }
 
