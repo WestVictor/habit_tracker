@@ -1,11 +1,16 @@
 import { useState } from "react"
+import { BASE_API_URL, LOGIN_API_ROUTE } from "../api-routes"
+import { useNavigate } from "react-router-dom"
+import { saveToken } from "../helper.js"
 
 export default function LoginForm(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
-    function onSubmit(e){
+    async function onSubmit(e){
         e.preventDefault()
         setError("")
 
@@ -14,7 +19,27 @@ export default function LoginForm(){
             return
         }
 
-        console.log("Ready to send to the backend")
+        setLoading(true)
+        try {
+            const response = await fetch(`${BASE_API_URL}${LOGIN_API_ROUTE}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            })
+
+            if (response.ok){
+                const data = await response.json()
+                
+                saveToken(data.access_token)
+                navigate("/dashboard")
+            }
+        } catch (error) {
+            setError("There was an error.")
+        } finally{
+            setLoading(false)
+        }
     }
 
     return(
@@ -29,7 +54,7 @@ export default function LoginForm(){
 
             <p className="form-error">{error}</p>
 
-            <button className="btn btn-primary" onClick={onSubmit}>Log in</button>
+            <button className="btn btn-primary" onClick={onSubmit} disabled={loading}>{loading ? "Logging you in" : "Log in"}</button>
         </form>
     )
 }

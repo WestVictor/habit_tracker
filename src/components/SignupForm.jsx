@@ -1,11 +1,15 @@
 import { useState } from "react"
+import { BASE_API_URL, SIGN_UP_API_ROUTE } from "../api-routes.js"
+import { useNavigate } from "react-router-dom"
 
 export default function SignupForm(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
-    function onSubmit(e){
+    async function onSubmit(e){
         e.preventDefault()
         setError("")
 
@@ -19,7 +23,23 @@ export default function SignupForm(){
             return
         }
 
-        console.log("Ready to send to the backend")
+        setLoading(true)
+        try{
+            const response = await fetch(`${BASE_API_URL}${SIGN_UP_API_ROUTE}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password})
+            })
+            if (response.ok){
+                navigate("/login")
+            }
+        } catch(error){
+            setError("There was an error. Try again later")
+        } finally{
+            setLoading(false)
+        }
     }
 
     return(
@@ -34,7 +54,7 @@ export default function SignupForm(){
 
             <p className="form-error">{error}</p>
 
-            <button className="btn btn-primary" onClick={onSubmit}>Sign up</button>
+            <button className="btn btn-primary" onClick={onSubmit} disabled={loading}>{loading ? "Creating account..." : "Sign up"}</button>
         </form>
     )
 }
